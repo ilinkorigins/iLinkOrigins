@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>i Link Origins - Super App (Managed)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
+            background-color: #2d3748; 
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #ffffff; 
+            overscroll-behavior: none;
+        }
+
+        .link-button {
+            background-color: #ffffff;
+            color: #2d3748; 
+            padding: 0.75rem 1rem;
+            border-radius: 9999px; 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+            margin-bottom: 0.75rem; 
+            font-size: 1.125rem; 
+            font-weight: 600; 
+            text-align: center;
+            display: block;
+            width: 100%;
+            transition: all 0.2s ease-in-out;
+            text-decoration: none;
+            border: 2px solid transparent; 
+            word-break: break-word; 
+        }
+        .link-button:hover {
+            background-color: #f7fafc; 
+            transform: translateY(-2px) scale(1.02); 
+            border-color: #3b82f6; 
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); 
+        }
+        
+        .category-heading {
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #cbd5e0; 
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #3b82f6; 
+        }
+
+        .sub-heading {
+            font-size: 1.25rem; 
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+            border-left: 4px solid #10b981; 
+        }
+
+        .tab-button {
+            text-align: center;
+            padding: 0.5rem 0.25rem; 
+            color: #a0aec0; 
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.75rem; 
+            line-height: 1;
+            width: 70px; 
+            flex-shrink: 0; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+        .tab-button i {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-size: 1.1rem;
+        }
+        .tab-button[data-active="true"] {
+            color: #3b82f6; 
+            font-weight: 700;
+        }
+
+        .sub-nav-button {
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            background-color: #4a5568; 
+            color: #ffffff;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            white-space: nowrap;
+            -webkit-tap-highlight-color: transparent; 
+        }
+        .sub-nav-button:hover {
+            background-color: #3b82f6;
+        }
+        .sub-nav-button.active {
+            background-color: #3b82f6; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-section, .subcategory-links {
+            display: none;
+        }
+        .content-section.active, .subcategory-links.active {
+            display: block;
+        }
+
+        main {
+            padding-bottom: 110px; 
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .subcategory-nav-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; 
+            padding-bottom: 5px; 
+            margin-bottom: 0;
+            white-space: nowrap; 
+        }
+        .subcategory-nav-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .subcategory-nav-scroll {
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+        
+        #terms-section .container-box {
+            background-color: #1a202c; 
+            padding: 2rem;
+            border-radius: 0.75rem; 
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5); 
+        }
+        #terms-section .section-title {
+            color: #10b981; 
+            border-bottom: 2px solid #4a5568;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid #4a5568;
+            background-color: #2d3748;
+            color: white;
+            -webkit-appearance: none; 
+        }
+        .login-input.editable {
+            background-color: #4a5568;
+            color: #ffffff;
+        }
+        .login-btn {
+            background-color: #3b82f6;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 700;
+            width: 100%;
+            transition: background-color 0.2s;
+            -webkit-tap-highlight-color: transparent; 
+            -webkit-appearance: none;
+        }
+        .login-btn:hover {
+            background-color: #2c5282;
+        }
+        
+        .copyright-bar {
+            width: 100%;
+            background-color: #1a202c; 
+            color: #a0aec0; 
+            font-size: 0.7rem;
+            text-align: center;
+            padding: 6px 0;
+            border-top: 1px solid #2d3748;
+        }
+        
+        @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
+            body {
+                -webkit-text-size-adjust: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-800 text-white min-h-screen flex flex-col items-center">
+
+    <header class="flex flex-col items-center py-8 px-4 w-full">
+        <img src="https://placehold.co/112x112/3b82f6/ffffff?text=iLinkOrigins" 
+             alt="iLinkOrigins Logo" 
+             class="w-28 h-28 object-contain rounded-full mb-2 border-4 border-white shadow-2xl">
+        <h1 class="text-4xl font-extrabold text-white mb-1 tracking-wider">iLinkOrigins</h1>
+        <p class="text-sm text-gray-400">Your single-click South African link app.</p>
+    </header>
+
+    <main id="content-area" class="flex-grow w-full max-w-md px-4">
+
+        <section id="home-section" class="content-section active" data-category="home">
+            <h2 class="category-heading">WELCOME HOME</h2>
+            
+            <a href="mailto:iLinkOrigins@gmail.com" class="link-button mb-6" id="link-main-000">
+                <i class="fas fa-magic mr-2"></i>
+                <span>iLinkOrigins@gmail.com</span>
+            </a>
+
+            <div class="mt-8 p-6 bg-gray-700 rounded-xl shadow-inner text-gray-200">
+                <h3 class="font-bold text-lg mb-2 text-white">iLinkOrigins:</h3>
+                <p class="mb-3 text-sm">Shopping made easy, making it fast and easy to navigate to find what you're looking for.</p>
+                <p class="mb-3 text-sm">We've expanded our lists! You now have full access to Pets, Groceries, Clothing, Fast Food, Pharmacy, and Fitness subcategories, all focused on South Africa.</p>
+                <p class="text-sm">New features will be added soon!</p>
+            </div>
+            
+            <div class="mt-8 p-4 bg-gray-900 rounded-xl text-center border border-gray-700">
+                <h4 class="text-sm font-semibold text-gray-400">CONTACT & LEGAL</h4>
+                <p class="text-white text-md mb-2">Email: <a href="mailto:iLinkOrigins@gmail.com" class="text-blue-400 hover:text-blue-300">iLinkOrigins@gmail.com</a></p>
+                <button class="text-xs font-bold text-gray-500 hover:text-blue-400 transition" onclick="showMainSection('terms-section')">Read our Simple Terms & Conditions</button>
+            </div>
+        </section>
+
+        <section id="betting-lottery-section" class="content-section" data-category="betting-lottery">
+            <h2 class="category-heading">BETTING & LOTTERY</h2>
+            <div class="subcategory-nav-scroll">
+                <div id="betting-lottery-sub-nav" class="flex justify-start space-x-2">
+                    <button class="sub-nav-button active" data-target-sub="betting-online">Online Betting</button>
+                    <button class="sub-nav-button" data-target-sub="betting-lottery">National Lottery</button>
+                </div>
+            </div>
+            <div id="sub-betting-online" class="subcategory-links active" data-subcategory="betting-online">
+                <h3 class="sub-heading">Top 15 Online Betting Platforms (SA)</h3>
+                <a href="https://www.hollywoodbets.net/?ref=HassieHond-betting-1" target="_blank" class="link-button" id="link-betting-001">Hollywoodbets</a>
+                <a href="https://www.lottostar.co.za/?ref=HassieHond-betting-9" target="_blank" class="link-button" id="link-betting-009">Lottostar</a>
+                <a href="https://www.betway.co.za/?ref=HassieHond-betting-2" target="_blank" class="link-button" id="link-betting-002">Betway South Africa</a>
+                <a href="https://www.sportingbet.co.za/?ref=HassieHond-betting-3" target="_blank" class="link-button" id="link-betting-003">Sportingbet SA</a>
+                <a href="https://www.gsb.co.za/?ref=HassieHond-betting-4" target="_blank" class="link-button" id="link-betting-004">Goldrush Sports Betting</a>
+                <a href="https://www.sunbet.co.za/?ref=HassieHond-betting-5" target="_blank" class="link-button" id="link-betting-005">Sunbet</a>
+                <a href="https://www.worldsportsbetting.co.za/?ref=HassieHond-betting-6" target="_blank" class="link-button" id="link-betting-006">World Sports Betting</a>
+                <a href="https://www.palacebet.co.za/?ref=HassieHond-betting-7" target="_blank" class="link-button" id="link-betting-007">PalaceBet</a>
+                <a href="https://www.bet.co.za/?ref=HassieHond-betting-8" target="_blank" class="link-button" id="link-betting-008">Bet.co.za</a>
+                <a href="https://www.playabets.co.za/?ref=HassieHond-betting-10" target="_blank" class="link-button" id="link-betting-010">Playa Bets</a>
+                <a href="https://www.betfred.co.za/?ref=HassieHond-betting-11" target="_blank" class="link-button" id="link-betting-011">Betfred SA</a>
+                <a href="https://www.yesplay.co.za/?ref=HassieHond-betting-12" target="_blank" class="link-button" id="link-betting-012">YesPlay</a>
+                <a href="https://www.marshalls.co.za/?ref=HassieHond-betting-13" target="_blank" class="link-button" id="link-betting-013">Marshalls World of Sport</a>
+                <a href="https://www.tabonline.co.za/?ref=HassieHond-betting-14" target="_blank" class="link-button" id="link-betting-014">TAB (Horse Racing & Sports)</a>
+                <a href="https://www.supabets.co.za/?ref=HassieHond-betting-15" target="_blank" class="link-button" id="link-betting-015">Supabets</a>
+            </div>
+            <div id="sub-betting-lottery" class="subcategory-links" data-subcategory="betting-lottery">
+                <h3 class="sub-heading">SA National Lottery Quick Links</h3>
+                <a href="https://www.nationallottery.co.za/?ref=HassieHond-lottery-1" target="_blank" class="link-button" id="link-lottery-001"><i class="fas fa-poll mr-2"></i> Latest Lotto Results</a>
+                <a href="https://www.nationallottery.co.za/login?fromPage=L3BsYXktbm93L2xvdHRv?ref=HassieHond-lottery-2" target="_blank" class="link-button" id="link-lottery-002">Play Lotto Online</a>
+                <a href="https://www.nationallottery.co.za/results/powerball?ref=HassieHond-lottery-3" target="_blank" class="link-button" id="link-lottery-003">PowerBall Results</a>
+                <a href="https://www.nationallottery.co.za/login?fromPage=L3BsYXktbm93L2xvdHRv?ref=HassieHond-lottery-4" target="_blank" class="link-button" id="link-lottery-004">Play PowerBall</a>
+                <a href="https://www.nationallottery.co.za/results/lottoplus?ref=HassieHond-lottery-5" target="_blank" class="link-button" id="link-lottery-005">LottoPlus Results</a>
+                <a href="https://www.lottery.co.za/store-locator?ref=HassieHond-lottery-6" target="_blank" class="link-button" id="link-lottery-006"><i class="fas fa-map-marker-alt mr-2"></i> Find a Lotto Retailer</a>
+                <a href="https://www.ithuba.co.za/en/contact-us?ref=HassieHond-lottery-7" target="_blank" class="link-button" id="link-lottery-007">Contact Ithuba (Operator)</a>
+            </div>
+        </section>
+
+        <section id="food-shopping-section" class="content-section" data-category="food-shopping">
+            <h2 class="category-heading">FOOD & SHOPPING</h2>
+            <div class="subcategory-nav-scroll">
+                <div id="food-shopping-sub-nav" class="flex justify-start space-x-2">
+                    <button class="sub-nav-button active" data-target-sub="food-groceries">Groceries</button>
+                    <button class="sub-nav-button" data-target-sub="food-clothing">Clothing</button>
+                    <button class="sub-nav-button" data-target-sub="food-fast-food">Fast Food</button>
+                    <button class="sub-nav-button" data-target-sub="food-restaurants">Restaurants</button>
+                </div>
+            </div>
+            <div id="sub-food-groceries" class="subcategory-links active" data-subcategory="food-groceries">
+                <h3 class="sub-heading">Grocery & General Stores (SA)</h3>
+                <a href="https://www.checkers.co.za/" target="_blank" class="link-button" id="link-food-001">Checkers Sixty60</a>
+                <a href="https://www.woolworths.co.za/" target="_blank" class="link-button" id="link-food-002">Woolworths Online</a>
+                <a href="https://www.pnp.co.za/" target="_blank" class="link-button" id="link-food-003">Pick n Pay Online</a>
+                <a href="https://www.makro.co.za/" target="_blank" class="link-button" id="link-food-004">Makro Online</a>
+                <a href="https://www.spar.co.za/" target="_blank" class="link-button" id="link-food-005">Spar (Store Locator)</a>
+                <a href="https://www.foodloversmarket.co.za/" target="_blank" class="link-button" id="link-food-006">Food Lover's Market</a>
+                <a href="https://www.takealot.com/" target="_blank" class="link-button" id="link-food-007">Takealot</a>
+                <a href="https://www.dischem.co.za/food" target="_blank" class="link-button" id="link-food-008">Dis-Chem Food Aisle</a>
+                <a href="https://www.game.co.za/" target="_blank" class="link-button" id="link-food-009">Game</a>
+                <a href="https://www.ultraliquors.co.za/" target="_blank" class="link-button" id="link-food-010">Ultra Liquors</a>
+                <a href="https://www.yuppiechef.com/" target="_blank" class="link-button" id="link-food-011">Yuppiechef</a>
+            </div>
+            <div id="sub-food-clothing" class="subcategory-links" data-subcategory="food-clothing">
+                <h3 class="sub-heading">Clothing & Homeware (SA)</h3>
+                <a href="https://www.zando.co.za/" target="_blank" class="link-button" id="link-clothing-001">Zando</a>
+                <a href="https://www.superbalist.com/" target="_blank" class="link-button" id="link-clothing-002">Superbalist</a>
+                <a href="https://www.takealot.com/" target="_blank" class="link-button" id="link-clothing-003">Takealot Clothing</a>
+                <a href="https://www.mrprice.com/" target="_blank" class="link-button" id="link-clothing-004">Mr Price</a>
+                <a href="https://www.edgars.co.za/" target="_blank" class="link-button" id="link-clothing-005">Edgars</a>
+                <a href="https://www.tfg.co.za/brands/" target="_blank" class="link-button" id="link-clothing-006">TFG Brands</a>
+                <a href="https://www.woolworths.co.za/clothing/view-all" target="_blank" class="link-button" id="link-clothing-007">Woolworths Clothing</a>
+                <a href="https://www.hm.com/za/" target="_blank" class="link-button" id="link-clothing-008">H&M South Africa</a>
+                <a href="https://www.zarahome.com/za/" target="_blank" class="link-button" id="link-clothing-009">Zara South Africa</a>
+                <a href="https://www.sheetstreet.com/" target="_blank" class="link-button" id="link-clothing-010">Sheet Street</a>
+                <a href="https://www.homechoice.co.za/" target="_blank" class="link-button" id="link-clothing-011">Home Choice</a>
+            </div>
+            <div id="sub-food-fast-food" class="subcategory-links" data-subcategory="food-fast-food">
+                <h3 class="sub-heading">Fast Food Delivery</h3>
+                <a href="https://www.mcdonalds.co.za/" target="_blank" class="link-button" id="link-fastfood-001">McDonald's</a>
+                <a href="https://www.kfc.co.za/delivery" target="_blank" class="link-button" id="link-fastfood-002">KFC Delivery</a>
+                <a href="https://www.pizzahut.co.za/" target="_blank" class="link-button" id="link-fastfood-003">Pizza Hut</a>
+                <a href="https://www.debonairs.co.za/" target="_blank" class="link-button" id="link-fastfood-004">Debonairs Pizza</a>
+                <a href="https://www.steers.co.za/" target="_blank" class="link-button" id="link-fastfood-005">Steers</a>
+                <a href="https://www.nandos.co.za/" target="_blank" class="link-button" id="link-fastfood-006">Nando's Delivery</a>
+                <a href="https://www.burgerking.co.za/" target="_blank" class="link-button" id="link-fastfood-007">Burger King</a>
+                <a href="https://www.rocomamas.com/" target="_blank" class="link-button" id="link-fastfood-008">RocoMamas</a>
+                <a href="https://www.fishaways.co.za/" target="_blank" class="link-button" id="link-fastfood-009">Fishaways</a>
+                <a href="https://www.chickenlicken.co.za/" target="_blank" class="link-button" id="link-fastfood-010">Chicken Licken</a>
+            </div>
+            <div id="sub-food-restaurants" class="subcategory-links" data-subcategory="food-restaurants">
+                <h3 class="sub-heading">Restaurant & Booking Apps</h3>
+                <a href="https://www.ubereats.com/za" target="_blank" class="link-button" id="link-restaurants-001">Uber Eats SA</a>
+                <a href="https://www.mrdfast.com/" target="_blank" class="link-button" id="link-restaurants-002">Mr D Food</a>
+                <a href="https://www.dineplan.com/" target="_blank" class="link-button" id="link-restaurants-003">Dineplan</a>
+                <a href="https://www.zomato.com/south-africa" target="_blank" class="link-button" id="link-restaurants-004">Zomato SA</a>
+                <a href="https://www.spursteakranches.com/za" target="_blank" class="link-button" id="link-restaurants-005">Spur Steak Ranches</a>
+                <a href="https://www.oceanbasket.com/" target="_blank" class="link-button" id="link-restaurants-006">Ocean Basket</a>
+                <a href="https://www.muggandbean.co.za/" target="_blank" class="link-button" id="link-restaurants-007">Mugg & Bean</a>
+                <a href="https://www.wimpy.co.za/" target="_blank" class="link-button" id="link-restaurants-008">Wimpy</a>
+                <a href="https://www.eatout.co.za/" target="_blank" class="link-button" id="link-restaurants-009">Eat Out SA</a>
+                <a href="https://www.tripadvisor.co.za/Restaurants" target="_blank" class="link-button" id="link-restaurants-010">TripAdvisor Restaurants SA</a>
+            </div>
+        </section>
+
+        <section id="health-beauty-section" class="content-section" data-category="health-beauty">
+            <h2 class="category-heading">HEALTH & BEAUTY</h2>
+            <div class="subcategory-nav-scroll">
+                <div id="health-beauty-sub-nav" class="flex justify-start space-x-2">
+                    <button class="sub-nav-button active" data-target-sub="hb-pharmacy">Pharmacies</button>
+                    <button class="sub-nav-button" data-target-sub="hb-fitness">Fitness</button>
+                    <button class="sub-nav-button" data-target-sub="hb-medical">Medical Aid</button>
+                </div>
+            </div>
+            <div id="sub-hb-pharmacy" class="subcategory-links active" data-subcategory="hb-pharmacy">
+                <h3 class="sub-heading">Pharmacy & Personal Care</h3>
+                <a href="https://www.clicks.co.za/" target="_blank" class="link-button" id="link-pharmacy-001">Clicks Online</a>
+                <a href="https://www.dischem.co.za/" target="_blank" class="link-button" id="link-pharmacy-002">Dis-Chem Online</a>
+                <a href="https://www.takealot.com/health-personal-care" target="_blank" class="link-button" id="link-pharmacy-003">Takealot Health</a>
+                <a href="https://www.woolworths.co.za/beauty/view-all" target="_blank" class="link-button" id="link-pharmacy-004">Woolworths Beauty</a>
+                <a href="https://www.thebodyshop.co.za/" target="_blank" class="link-button" id="link-pharmacy-005">The Body Shop SA</a>
+                <a href="https://www.mac-cosmetics.co.za/" target="_blank" class="link-button" id="link-pharmacy-006">MAC Cosmetics SA</a>
+                <a href="https://www.sorbet.co.za/" target="_blank" class="link-button" id="link-pharmacy-007">Sorbet Salons</a>
+                <a href="https://dermalogica.co.za/" target="_blank" class="link-button" id="link-pharmacy-008">Dermalogica SA</a>
+                <a href="https://www.foschiniforbeauty.co.za/" target="_blank" class="link-button" id="link-pharmacy-009">Foschini for Beauty</a>
+                <a href="https://www.healthspaguide.co.za/" target="_blank" class="link-button" id="link-pharmacy-010">Health Spa Guide SA</a>
+            </div>
+            <div id="sub-hb-fitness" class="subcategory-links" data-subcategory="hb-fitness">
+                <h3 class="sub-heading">Fitness & Wellness</h3>
+                <a href="https://www.virginactive.co.za/" target="_blank" class="link-button" id="link-fitness-001">Virgin Active</a>
+                <a href="https://www.planetfitness.co.za/" target="_blank" class="link-button" id="link-fitness-002">Planet Fitness</a>
+                <a href="https://www.zonefitness.co.za/" target="_blank" class="link-button" id="link-fitness-003">Zone Fitness</a>
+                <a href="https://thegymcompany.co.za/" target="_blank" class="link-button" id="link-fitness-004">The Gym Company</a>
+                <a href="https://www.sweat1000.com/" target="_blank" class="link-button" id="link-fitness-005">SWEAT 1000</a>
+                <a href="https://www.biogen.co.za/" target="_blank" class="link-button" id="link-fitness-006">Biogen Supplements</a>
+                <a href="https://www.usn.co.za/" target="_blank" class="link-button" id="link-fitness-007">USN Supplements</a>
+                <a href="https://www.sportsmanswarehouse.co.za/" target="_blank" class="link-button" id="link-fitness-008">Sportsman's Warehouse</a>
+                <a href="https://www.totalsports.co.za/" target="_blank" class="link-button" id="link-fitness-009">Totalsports</a>
+                <a href="https://runwalkforlife.co.za/" target="_blank" class="link-button" id="link-fitness-010">Run/Walk For Life</a>
+            </div>
+            <div id="sub-hb-medical" class="subcategory-links" data-subcategory="hb-medical">
+                <h3 class="sub-heading">Medical Aid Schemes (SA)</h3>
+                <a href="https://www.discovery.co.za/health" target="_blank" class="link-button" id="link-medical-001">Discovery Health</a>
+                <a href="https://www.bonitas.co.za/" target="_blank" class="link-button" id="link-medical-002">Bonitas Medical Fund</a>
+                <a href="https://www.momentum.co.za/health" target="_blank" class="link-button" id="link-medical-003">Momentum Health</a>
+                <a href="https://www.medihelp.co.za/" target="_blank" class="link-button" id="link-medical-004">Medihelp Medical Aid</a>
+                <a href="https://www.fedhealth.co.za/" target="_blank" class="link-button" id="link-medical-005">Fedhealth</a>
+                <a href="https://www.bestmed.co.za/" target="_blank" class="link-button" id="link-medical-006">Bestmed</a>
+                <a href="https://www.profmed.co.za/" target="_blank" class="link-button" id="link-medical-007">Profmed</a>
+                <a href="https://www.liberty.co.za/personal/health" target="_blank" class="link-button" id="link-medical-008">Liberty Medical</a>
+                <a href="https://www.sizwehosmed.co.za/" target="_blank" class="link-button" id="link-medical-009">Sizwe Hosmed</a>
+                <a href="https://www.affinityhealth.co.za/" target="_blank" class="link-button" id="link-medical-010">Affinity Health</a>
+            </div>
+        </section>
+
+        <section id="banking-section" class="content-section" data-category="banking">
+            <h2 class="category-heading">BANKING & FINANCE</h2>
+            <div class="subcategory-nav-scroll">
+                <div id="banking-sub-nav" class="flex justify-start space-x-2">
+                    <button class="sub-nav-button active" data-target-sub="bank-sa">Major Banks</button>
+                    <button class="sub-nav-button" data-target-sub="bank-payments">Payments</button>
+                    <button class="sub-nav-button" data-target-sub="bank-credit">Credit Checks</button>
+                </div>
+            </div>
+            <div id="sub-bank-sa" class="subcategory-links active" data-subcategory="bank-sa">
+                <h3 class="sub-heading">Major SA Banks</h3>
+                <a href="https://www.fnb.co.za/" target="_blank" class="link-button" id="link-bank-001">FNB Online Banking</a>
+                <a href="https://www.standardbank.co.za/" target="_blank" class="link-button" id="link-bank-002">Standard Bank</a>
+                <a href="https://www.nedbank.co.za/" target="_blank" class="link-button" id="link-bank-003">Nedbank</a>
+                <a href="https://www.absa.co.za/" target="_blank" class="link-button" id="link-bank-004">ABSA Bank</a>
+                <a href="https://www.capitecbank.co.za/" target="_blank" class="link-button" id="link-bank-005">Capitec Bank</a>
+                <a href="https://www.investec.com/en_za/bank.html" target="_blank" class="link-button" id="link-bank-006">Investec</a>
+                <a href="https://www.africanbank.co.za/" target="_blank" class="link-button" id="link-bank-007">African Bank</a>
+                <a href="https://www.tymebank.co.za/" target="_blank" class="link-button" id="link-bank-008">TymeBank</a>
+                <a href="https://www.discovery.co.za/bank/" target="_blank" class="link-button" id="link-bank-009">Discovery Bank</a>
+                <a href="https://www.bidvestbank.co.za/" target="_blank" class="link-button" id="link-bank-010">Bidvest Bank</a>
+            </div>
+            <div id="sub-bank-payments" class="subcategory-links" data-subcategory="bank-payments">
+                <h3 class="sub-heading">Online Payment & Gateway Links</h3>
+                <a href="https://www.paypal.com/za/home" target="_blank" class="link-button" id="link-payment-001">PayPal SA</a>
+                <a href="https://www.payfast.co.za/" target="_blank" class="link-button" id="link-payment-002">PayFast Gateway</a>
+                <a href="https://www.yoco.com/" target="_blank" class="link-button" id="link-payment-003">Yoco Card Machines</a>
+                <a href="https://www.snapscan.co.za/" target="_blank" class="link-button" id="link-payment-004">SnapScan App</a>
+                <a href="https://www.zapper.com/" target="_blank" class="link-button" id="link-payment-005">Zapper App</a>
+            </div>
+            <div id="sub-bank-credit" class="subcategory-links" data-subcategory="bank-credit">
+                <h3 class="sub-heading">Credit Bureaus & Info</h3>
+                <a href="https://www.compuscan.co.za/" target="_blank" class="link-button" id="link-credit-001">Compuscan</a>
+                <a href="https://www.transunion.co.za/" target="_blank" class="link-button" id="link-credit-002">TransUnion SA</a>
+                <a href="https://www.experian.co.za/" target="_blank" class="link-button" id="link-credit-003">Experian SA</a>
+                <a href="https://www.xds.co.za/" target="_blank" class="link-button" id="link-credit-004">XDS Bureau</a>
+                <a href="https://www.creditscore.co.za/" target="_blank" class="link-button" id="link-credit-005">Credit Score Check</a>
+            </div>
+        </section>
+        
+        <section id="government-section" class="content-section" data-category="government">
+            <h2 class="category-heading">GOVERNMENT & SERVICES</h2>
+            <div class="subcategory-nav-scroll">
+                <div id="government-sub-nav" class="flex justify-start space-x-2">
+                    <button class="sub-nav-button active" data-target-sub="gov-official">Official Sites</button>
+                    <button class="sub-nav-button" data-target-sub="gov-utilities">Utilities & Transport</button>
+                    <button class="sub-nav-button" data-target-sub="gov-jobs">Jobs & Education</button>
+                </div>
+            </div>
+            <div id="sub-gov-official" class="subcategory-links active" data-subcategory="gov-official">
+                <h3 class="sub-heading">Official Government Sites (SA)</h3>
+                <a href="https://www.gov.za/" target="_blank" class="link-button" id="link-gov-001">South African Government</a>
+                <a href="https://www.sars.gov.za/" target="_blank" class="link-button" id="link-gov-002">SARS (Tax)</a>
+                <a href="https://www.home-affairs.gov.za/" target="_blank" class="link-button" id="link-gov-003">Home Affairs</a>
+                <a href="https://www.sassa.gov.za/" target="_blank" class="link-button" id="link-gov-004">SASSA</a>
+                <a href="https://www.labour.gov.za/" target="_blank" class="link-button" id="link-gov-005">Department of Labour (UIF)</a>
+                <a href="https://www.justice.gov.za/" target="_blank" class="link-button" id="link-gov-006">Department of Justice</a>
+                <a href="https://www.capetown.gov.za/" target="_blank" class="link-button" id="link-gov-007">City of Cape Town</a>
+                <a href="https://www.joburg.org.za/" target="_blank" class="link-button" id="link-gov-008">City of Johannesburg</a>
+                <a href="https://www.tshwane.gov.za/" target="_blank" class="link-button" id="link-gov-009">City of Tshwane</a>
+                <a href="https://www.eservices.gov.za/" target="_blank" class="link-button" id="link-gov-010">e-Services Portal</a>
+            </div>
+            <div id="sub-gov-utilities" class="subcategory-links" data-subcategory="gov-utilities">
+                <h3 class="sub-heading">Utilities & Transport</h3>
+                <a href="https://www.eskom.co.za/" target="_blank" class="link-button" id="link-utilities-001">Eskom</a>
+                <a href="https://www.sanral.co.za/" target="_blank" class="link-button" id="link-utilities-002">SANRAL (Roads)</a>
+                <a href="https://www.aarto.gov.za/" target="_blank" class="link-button" id="link-utilities-003">AARTO / Traffic fines</a>
+                <a href="https://www.prasa.com/" target="_blank" class="link-button" id="link-utilities-004">PRASA</a>
+                <a href="https://www.metrorail.co.za/" target="_blank" class="link-button" id="link-utilities-005">Metrorail</a>
+                <a href="https://www.postoffice.co.za/" target="_blank" class="link-button" id="link-utilities-006">SA Post Office</a>
+                <a href="https://www.weather.co.za/" target="_blank" class="link-button" id="link-utilities-007">SA Weather Service</a>
+            </div>
+            <div id="sub-gov-jobs" class="subcategory-links" data-subcategory="gov-jobs">
+                <h3 class="sub-heading">Job Portals & Education</h3>
+                <a href="https://www.indeed.co.za/" target="_blank" class="link-button" id="link-jobs-001">Indeed SA</a>
+                <a href="https://www.pnet.co.za/" target="_blank" class="link-button" id="link-jobs-002">Pnet</a>
+                <a href="https://www.careers24.com/" target="_blank" class="link-button" id="link-jobs-003">Careers24</a>
+                <a href="https://www.jobs.co.za/" target="_blank" class="link-button" id="link-jobs-004">Jobs.co.za</a>
+                <a href="https://www.sacareers.co.za/" target="_blank" class="link-button" id="link-jobs-005">SA Careers</a>
+                <a href="https://www.dpsa.gov.za/dpsa2g/" target="_blank" class="link-button" id="link-jobs-006">DPSA (Gov Vacancies)</a>
+                <a href="https://www.unisa.ac.za/" target="_blank" class="link-button" id="link-jobs-007">UNISA</a>
+                <a href="https://www.uct.ac.za/" target="_blank" class="link-button" id="link-jobs-008">University of Cape Town (UCT)</a>
+                <a href="https://www.wits.ac.za/" target="_blank" class="link-button" id="link-jobs-009">University of the Witwatersrand</a>
+            </div>
+        </section>
+
+        <section id="pets-section" class="content-section" data-category="pets">
+            <h2 class="category-heading">PETS & HEALTH</h2>
+            <div class="subcategory-nav-scroll">
+                <div id="pets-sub-nav" class="flex justify-start space-x-2">
+                    <button class="sub-nav-button active" data-target-sub="pets-products">Food & Products</button>
+                    <button class="sub-nav-button" data-target-sub="pets-health">Health & Insurance</button>
+                </div>
+            </div>
+            <div id="sub-pets-products" class="subcategory-links active" data-subcategory="pets-products">
+                <h3 class="sub-heading">Pet Food & Supplies (SA)</h3>
+                <a href="https://www.absolutepets.com/" target="_blank" class="link-button" id="link-pets-001">Absolute Pets</a>
+                <a href="https://www.petworld.co.za/" target="_blank" class="link-button" id="link-pets-002">Petworld</a>
+                <a href="https://www.epetstore.co.za/" target="_blank" class="link-button" id="link-pets-003">ePetstore</a>
+                <a href="https://www.petheaven.co.za/" target="_blank" class="link-button" id="link-pets-004">Pet Heaven</a>
+                <a href="https://www.takealot.com/pets" target="_blank" class="link-button" id="link-pets-005">Takealot Pets</a>
+                <a href="https://shinga.co.za/" target="_blank" class="link-button" id="link-pets-006">Shinga Pet</a>
+                <a href="https://pethero.co.za/" target="_blank" class="link-button" id="link-pets-007">Pet Hero</a>
+                <a href="https://www.canineandco.co.za/" target="_blank" class="link-button" id="link-pets-008">Canine & Co</a>
+                <a href="https://www.mcmac.co.za/" target="_blank" class="link-button" id="link-pets-009">McMac Pet SA</a>
+                <a href="https://www.familypetcentre.co.za/" target="_blank" class="link-button" id="link-pets-010">Family Pet Centre</a>
+            </div>
+            <div id="sub-pets-health" class="subcategory-links" data-subcategory="pets-health">
+                <h3 class="sub-heading">Health, Vets & Insurance</h3>
+                <a href="https://www.dotsure.co.za/pet-insurance" target="_blank" class="link-button" id="link-pets-011">Dotsure Pet Insurance</a>
+                <a href="https://www.oneplan.co.za/pet" target="_blank" class="link-button" id="link-pets-012">Oneplan Pet Insurance</a>
+                <a href="https://www.outsurance.co.za/pet-insurance/" target="_blank" class="link-button" id="link-pets-013">OUTsurance Pet</a>
+                <a href="https://nspca.co.za/" target="_blank" class="link-button" id="link-pets-014">NSPCA South Africa</a>
+                <a href="https://www.aacl.co.za/" target="_blank" class="link-button" id="link-pets-015">Animal Anti-Cruelty League</a>
+                <a href="https://identipet.com/" target="_blank" class="link-button" id="link-pets-016">Identipet (Microchipping)</a>
+                <a href="https://tah.co.za/" target="_blank" class="link-button" id="link-pets-017">Tygerberg Animal Hospital</a>
+                <a href="https://keringa.co.za/" target="_blank" class="link-button" id="link-pets-018">Keringa Kennels & Transport</a>
+                <a href="https://medipetsa.co.za/" target="_blank" class="link-button" id="link-pets-019">MediPet SA</a>
+                <a href="https://www.vetshopsa.com/" target="_blank" class="link-button" id="link-pets-020">Vet+Shop</a>
+            </div>
+        </section>
+
+        <section id="terms-section" class="content-section" data-category="terms">
+            <h2 class="category-heading">TERMS & CONDITIONS</h2>
+            <div class="container-box">
+                <h3 class="section-title text-xl font-bold mb-4 pb-2">Simple Terms & Conditions</h3>
+                <p class="mb-3 text-sm">
+                    <strong>1. Disclaimer of Affiliation:</strong> iLinkOrigins is an independent link directory service and is operated by its sole proprietor. We are not affiliated with, endorsed by, or directly supported by any of the external websites linked on this page.
+                </p>
+                <p class="mb-3 text-sm">
+                    <strong>2. External Links:</strong> All links provided are for the user's convenience. We do not control the content, policies, or practices of third-party sites. Clicking an external link is at your own risk. We strongly recommend reviewing the Terms and Privacy Policies of any linked third-party site before providing personal information.
+                </p>
+                <p class="mb-3 text-sm">
+                    <strong>3. Accuracy and Availability:</strong> While we strive for accuracy, iLinkOrigins does not guarantee that the information (including but not limited to the categorization or availability of the linked services) on this page is always complete, accurate, or up-to-date. Links may change or cease to function without our knowledge.
+                </p>
+                <p class="mb-3 text-sm">
+                    <strong>4. No Warranty:</strong> The service is provided "as is" without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement.
+                </p>
+                <p class="mb-3 text-sm">
+                    <strong>5. Limitation of Liability:</strong> In no event shall iLinkOrigins be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on iLinkOrigins, even if iLinkOrigins or an iLinkOrigins authorized representative has been notified orally or in writing of the possibility of such damage.
+                </p>
+                <p class="mb-3 text-sm">
+                    <strong>6. Changes to Terms:</strong> We reserve the right to revise these terms at any time without prior notice. By using this website, you are agreeing to be bound by the then-current version of these Terms and Conditions.
+                </p>
+                <p class="text-xs text-center text-gray-500 mt-4">
+                    Last Updated: October 2025
+                </p>
+            </div>
+            <div class="mt-8 text-center">
+                <button class="sub-nav-button" onclick="showMainSection('home-section')">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Home
+                </button>
+            </div>
+        </section>
+
+        <section id="login-section" class="content-section" data-category="login">
+            <h2 class="category-heading">ADMIN PANEL LOGIN</h2>
+            <div class="p-6 bg-gray-700 rounded-xl shadow-xl">
+                <div id="admin-area">
+                    <h3 class="text-xl font-bold text-white mb-4 text-center">iLink Management</h3>
+                    <p id="login-message" class="text-white text-center mb-4">Enter Credentials</p>
+                    
+                    <input type="text" id="username" placeholder="Username" class="login-input editable">
+                    
+                    <input type="password" id="password" placeholder="Password" class="login-input editable">
+                    
+                    <button class="login-btn" onclick="check_hybrid_credentials()">Login</button>
+                </div>
+                <div id="management-area" class="hidden">
+                    <h3 class="text-xl font-bold text-white mb-4 border-b pb-2 border-gray-600">Link Management</h3>
+                    <select id="link-selector" onchange="loadLinkForEditing(this.value)" class="login-input bg-gray-600 mb-4">
+                        <option value="">-- Select Button to Edit --</option>
+                    </select>
+                    <label class="text-sm text-gray-400 block mb-1">Button Text</label>
+                    <input type="text" id="edit-text" placeholder="New Button Text" class="login-input editable" disabled>
+                    <label class="text-sm text-gray-400 block mb-1">Button Link (HREF)</label>
+                    <input type="text" id="edit-link" placeholder="New URL" class="login-input editable" disabled>
+                    <button class="login-btn bg-green-500 hover:bg-green-600 mb-4" onclick="saveLinkChanges()">Save Changes</button>
+                    <button class="login-btn bg-red-500 hover:bg-red-600" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="fixed bottom-0 left-0 w-full bg-gray-900 border-t border-gray-700 shadow-2xl z-10">
+        <nav class="overflow-x-scroll subcategory-nav-scroll px-2 py-2">
+            <div class="flex justify-between items-center space-x-2">
+                
+                <div class="tab-button" data-target="home-section" data-active="true">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </div>
+                
+                <div class="tab-button" data-target="betting-lottery-section">
+                    <i class="fas fa-dice"></i>
+                    <span>Betting</span>
+                </div>
+
+                <div class="tab-button" data-target="food-shopping-section">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span>Shopping</span>
+                </div>
+                
+                <div class="tab-button" data-target="health-beauty-section">
+                    <i class="fas fa-heartbeat"></i>
+                    <span>Health</span>
+                </div>
+                
+                <div class="tab-button" data-target="banking-section">
+                    <i class="fas fa-university"></i>
+                    <span>Banking</span>
+                </div>
+                
+                <div class="tab-button" data-target="government-section">
+                    <i class="fas fa-landmark"></i>
+                    <span>Gov't</span>
+                </div>
+
+                <div class="tab-button" data-target="pets-section">
+                    <i class="fas fa-paw"></i>
+                    <span>Pets</span>
+                </div>
+                
+                <div class="tab-button" data-target="terms-section">
+                    <i class="fas fa-file-contract"></i>
+                    <span>T&C</span>
+                </div>
+                
+                <div class="tab-button" data-target="login-section">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Admin</span>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="copyright-bar" id="app-footer-credit">
+            &copy; Clive - HassieHond 2026 - All Rights Reserved | <a href="javascript:void(0)" onclick="showMainSection('terms-section')" class="text-gray-400 hover:text-blue-300">Terms & Conditions</a>
+        </div>
+    </footer>
+
+    <canvas id="magic-canvas-1" style="display:none;"></canvas>
+    <canvas id="magic-canvas-2" style="display:none;"></canvas>
+
+    <script>
+        // HassieHond core logic initialized
+        let AppLinksMap = {}; 
+
+        function check_hybrid_credentials() {
+            const userIn = document.getElementById('username').value;
+            const passIn = document.getElementById('password').value;
+            const msgBox = document.getElementById('login-message');
+            const adminArea = document.getElementById('admin-area');
+            const manageArea = document.getElementById('management-area');
+            
+            const encoded_user = "Q2xpdmVN"; 
+            const encoded_pass = "Q2xpdmVNMQ==";
+            
+            const hybrid_user_check = btoa(userIn) === encoded_user;
+            const hybrid_pass_check = btoa(passIn) === encoded_pass;
+            
+            if (!(hybrid_user_check && hybrid_pass_check)) {
+                msgBox.textContent = "Access Denied: Invalid Credentials";
+                msgBox.style.color = '#f56565'; 
+                return;
+            }
+            
+            msgBox.textContent = "Login Successful!";
+            msgBox.style.color = '#48bb78'; 
+            adminArea.classList.add('hidden');
+            manageArea.classList.remove('hidden');
+            
+            populateLinkDropdown();
+        }
+
+        function logout() {
+            document.getElementById('admin-area').classList.remove('hidden');
+            document.getElementById('management-area').classList.add('hidden');
+            document.getElementById('login-message').textContent = "Enter Credentials"; 
+            document.getElementById('login-message').style.color = '#ffffff'; 
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            
+            document.getElementById('link-selector').value = "";
+            document.getElementById('edit-text').value = "";
+            document.getElementById('edit-link').value = "";
+            document.getElementById('edit-text').disabled = true;
+            document.getElementById('edit-link').disabled = true;
+
+            showMainSection('home-section'); 
+        }
+
+        function initializeAppLinks() {
+            const linkButtons = document.querySelectorAll('.link-button');
+            linkButtons.forEach(button => {
+                const linkId = button.id;
+                if (linkId) {
+                    let linkText = button.textContent.trim();
+                    if(linkId === 'link-main-000') {
+                       const spanText = button.querySelector('span') ? button.querySelector('span').textContent.trim() : linkText;
+                       linkText = spanText || 'i LINK - Main Button';
+                    }
+                    
+                    AppLinksMap[linkId] = {
+                        id: linkId,
+                        text: linkText,
+                        href: button.href,
+                        element: button 
+                    };
+                }
+            });
+        }
+
+        function populateLinkDropdown() {
+            const selector = document.getElementById('link-selector');
+            selector.innerHTML = '<option value="">-- Select Button to Edit --</option>'; 
+
+            const sortedKeys = Object.keys(AppLinksMap).sort();
+
+            sortedKeys.forEach(key => {
+                const link = AppLinksMap[key];
+                const option = document.createElement('option');
+                option.value = link.id;
+                
+                let category = link.id.split('-')[1] || 'Main';
+                category = category.charAt(0).toUpperCase() + category.slice(1);
+                option.textContent = `[${category}] ${link.text.substring(0, 30)}...`; 
+
+                selector.appendChild(option);
+            });
+        }
+
+        function loadLinkForEditing(linkId) {
+            const textField = document.getElementById('edit-text');
+            const linkField = document.getElementById('edit-link');
+
+            if (!linkId || !AppLinksMap[linkId]) {
+                textField.value = "";
+                linkField.value = "";
+                textField.disabled = true;
+                linkField.disabled = true;
+                return;
+            }
+            
+            const linkData = AppLinksMap[linkId];
+            
+            textField.disabled = false;
+            linkField.disabled = false;
+            textField.value = linkData.text;
+            linkField.value = linkData.href;
+            
+            document.getElementById('link-selector').dataset.currentEditId = linkId;
+        }
+
+        function saveLinkChanges() {
+            const linkId = document.getElementById('link-selector').dataset.currentEditId;
+            const newText = document.getElementById('edit-text').value.trim();
+            const newLink = document.getElementById('edit-link').value.trim();
+            const msgBox = document.getElementById('login-message');
+
+            if (!linkId || !newText || !newLink) {
+                msgBox.textContent = "Save Failed: Select a link and fill both fields.";
+                msgBox.style.color = '#f56565';
+                return;
+            }
+
+            const linkElement = document.getElementById(linkId);
+            if(linkElement.querySelector('span')) {
+                linkElement.querySelector('span').textContent = newText;
+            } else {
+                if(linkId === 'link-main-000') {
+                    linkElement.innerHTML = `<i class="fas fa-magic mr-2"></i><span>${newText}</span>`;
+                } else {
+                    linkElement.textContent = newText;
+                }
+            }
+            linkElement.href = newLink;
+
+            AppLinksMap[linkId].text = newText;
+            AppLinksMap[linkId].href = newLink;
+            
+            const selector = document.getElementById('link-selector');
+            const selectedOption = selector.querySelector(`option[value="${linkId}"]`);
+            let category = linkId.split('-')[1] || 'Main';
+            category = category.charAt(0).toUpperCase() + category.slice(1);
+            if (selectedOption) {
+                 selectedOption.textContent = `[${category}] ${newText.substring(0, 30)}...`; 
+            }
+
+            msgBox.textContent = `Success! Link [${linkId}] Updated.`;
+            msgBox.style.color = '#48bb78'; 
+        }
+
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const contentSections = document.querySelectorAll('.content-section');
+        
+        const showMainSection = (targetId) => {
+            tabButtons.forEach(button => {
+                button.dataset.active = "false";
+            });
+            contentSections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            const targetButton = document.querySelector(`.tab-button[data-target="${targetId}"]`);
+            const targetSection = document.getElementById(targetId);
+
+            if (targetButton) {
+                targetButton.dataset.active = "true";
+            }
+
+            if (targetSection) {
+                targetSection.classList.add('active');
+
+                const firstSubButton = targetSection.querySelector('.sub-nav-button');
+                if (firstSubButton) {
+                    if (!targetSection.querySelector('.sub-nav-button.active')) {
+                       handleSubcategorySelection(firstSubButton); 
+                    } else {
+                       const activeSubButton = targetSection.querySelector('.sub-nav-button.active');
+                       handleSubcategorySelection(activeSubButton);
+                    }
+                }
+            }
+        };
+
+        const handleSubcategorySelection = (activeSubButton) => {
+            const parentSection = activeSubButton.closest('.content-section');
+            const subNavContainer = activeSubButton.closest('.flex');
+            const targetSubId = activeSubButton.dataset.targetSub;
+            
+            if(subNavContainer) {
+                subNavContainer.querySelectorAll('.sub-nav-button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+            }
+            
+            parentSection.querySelectorAll('.subcategory-links').forEach(subContent => {
+                subContent.classList.remove('active');
+            });
+
+            activeSubButton.classList.add('active');
+
+            const targetSubContent = parentSection.querySelector(`#sub-${targetSubId}`);
+            if (targetSubContent) {
+                targetSubContent.classList.add('active');
+            }
+            
+            activeSubButton.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        };
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const targetId = button.dataset.target;
+                showMainSection(targetId);
+            });
+        });
+
+        contentSections.forEach(section => {
+            const subNavButtons = section.querySelectorAll('.sub-nav-button');
+            subNavButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    handleSubcategorySelection(e.currentTarget);
+                });
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAppLinks(); 
+
+            const initialActiveButton = document.querySelector('.tab-button[data-active="true"]');
+            if (initialActiveButton) {
+                showMainSection(initialActiveButton.dataset.target);
+            } else if (tabButtons.length > 0) {
+                showMainSection(tabButtons[0].dataset.target);
+            }
+
+            // Copyright validation check
+            const crString = document.getElementById('app-footer-credit').innerHTML;
+            if (!crString.includes("HassieHond")) {
+                document.body.innerHTML = "";
+            }
+        });
+    </script>
+</body>
+</html>
+
