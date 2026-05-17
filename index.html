@@ -1,110 +1,136 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-egg="HassieHond">
 <head>
-    <meta name="google-site-verification" content="6GtR_JaeJ0FkLeW2fWCKk155EWsZhkMX4mAvLQFP7-g" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>i Link Origins - Super App (Managed)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
         body {
-            font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; 
-            background-color: #2d3748; 
+            font-family: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background: radial-gradient(circle at top, #111827 0%, #030712 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #ffffff; 
+            color: #f3f4f6; 
             overscroll-behavior: none;
         }
 
+        /* Neon Glassmorphism Card Style */
+        .glass-card {
+            background: rgba(17, 24, 39, 0.55);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(6, 182, 212, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* Interactive Link Buttons with Cyan / Orange Glows */
         .link-button {
-            background-color: #ffffff;
-            color: #2d3748; 
-            padding: 0.75rem 1rem;
-            border-radius: 9999px; 
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
-            margin-bottom: 0.75rem; 
-            font-size: 1.125rem; 
+            background: rgba(255, 255, 255, 0.03);
+            color: #e5e7eb; 
+            padding: 0.85rem 1.25rem;
+            border-radius: 16px; 
+            margin-bottom: 0.85rem; 
+            font-size: 1.05rem; 
             font-weight: 600; 
             text-align: center;
             display: block;
             width: 100%;
-            transition: all 0.2s ease-in-out;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             text-decoration: none;
-            border: 2px solid transparent; 
+            border: 1px solid rgba(6, 182, 212, 0.25); 
             word-break: break-word; 
+            backdrop-filter: blur(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
+        
         .link-button:hover {
-            background-color: #f7fafc; 
-            transform: translateY(-2px) scale(1.02); 
-            border-color: #3b82f6; 
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); 
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(249, 115, 22, 0.1) 100%);
+            color: #06b6d4;
+            transform: translateY(-2px); 
+            border-color: #f97316; 
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.2), 0 0 5px rgba(6, 182, 212, 0.2); 
         }
         
         .category-heading {
-            font-size: 1.5rem; 
-            font-weight: 700; 
+            font-size: 1.35rem; 
+            font-weight: 800; 
             text-align: center;
             margin-bottom: 1.5rem;
-            color: #cbd5e0; 
-            padding-bottom: 0.5rem;
-            border-bottom: 3px solid #3b82f6; 
+            color: #06b6d4; 
+            letter-spacing: 0.1em;
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid #f97316; 
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.3);
         }
 
         .sub-heading {
-            font-size: 1.25rem; 
+            font-size: 1.15rem; 
             font-weight: 700;
             color: #ffffff;
-            margin-top: 1.5rem;
+            margin-top: 1.75rem;
             margin-bottom: 1rem;
-            padding-left: 0.5rem;
-            border-left: 4px solid #10b981; 
+            padding-left: 0.6rem;
+            border-left: 4px solid #06b6d4; 
         }
 
+        /* Bottom Tab Buttons Navigation */
         .tab-button {
             text-align: center;
-            padding: 0.5rem 0.25rem; 
-            color: #a0aec0; 
-            transition: all 0.2s ease-in-out;
+            padding: 0.6rem 0.25rem; 
+            color: #9ca3af; 
+            transition: all 0.2s ease;
             cursor: pointer;
             font-weight: 500;
             font-size: 0.75rem; 
             line-height: 1;
-            width: 70px; 
+            width: 72px; 
             flex-shrink: 0; 
             -webkit-tap-highlight-color: transparent; 
         }
         .tab-button i {
             display: block;
-            margin-bottom: 0.25rem;
-            font-size: 1.1rem;
+            margin-bottom: 0.35rem;
+            font-size: 1.2rem;
+            transition: transform 0.2s ease;
+        }
+        .tab-button:hover i {
+            transform: scale(1.1);
         }
         .tab-button[data-active="true"] {
-            color: #3b82f6; 
-            font-weight: 700;
+            color: #06b6d4; 
+            font-weight: 800;
+            text-shadow: 0 0 8px rgba(6, 182, 212, 0.4);
         }
 
+        /* Sub-navigation buttons styling */
         .sub-nav-button {
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.1rem;
             border-radius: 9999px;
-            background-color: #4a5568; 
-            color: #ffffff;
-            font-size: 0.875rem;
+            background-color: rgba(255, 255, 255, 0.05); 
+            color: #9ca3af;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.2s;
             white-space: nowrap;
             -webkit-tap-highlight-color: transparent; 
         }
         .sub-nav-button:hover {
-            background-color: #3b82f6;
+            color: #ffffff;
+            background-color: rgba(6, 182, 212, 0.1);
+            border-color: #06b6d4;
         }
         .sub-nav-button.active {
-            background-color: #3b82f6; 
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: #ffffff; 
+            border-color: #22d3ee;
+            box-shadow: 0 0 12px rgba(6, 182, 212, 0.3);
         }
 
         .content-section, .subcategory-links {
@@ -115,14 +141,14 @@
         }
 
         main {
-            padding-bottom: 110px; 
+            padding-bottom: 120px; 
             -webkit-overflow-scrolling: touch;
         }
 
         .subcategory-nav-scroll {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch; 
-            padding-bottom: 5px; 
+            padding-bottom: 8px; 
             margin-bottom: 0;
             white-space: nowrap; 
         }
@@ -135,70 +161,98 @@
         }
         
         #terms-section .container-box {
-            background-color: #1a202c; 
-            padding: 2rem;
-            border-radius: 0.75rem; 
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5); 
+            background-color: rgba(17, 24, 39, 0.7);
+            padding: 1.75rem;
+            border-radius: 16px; 
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
         #terms-section .section-title {
-            color: #10b981; 
-            border-bottom: 2px solid #4a5568;
+            color: #f97316; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
+        /* Inputs and Management Panel Styling */
         .login-input {
             width: 100%;
-            padding: 0.75rem;
-            margin-bottom: 1rem;
-            border-radius: 0.5rem;
-            border: 1px solid #4a5568;
-            background-color: #2d3748;
+            padding: 0.8rem;
+            margin-bottom: 1.25rem;
+            border-radius: 12px;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            background-color: rgba(3, 7, 18, 0.6);
             color: white;
+            transition: all 0.2s;
             -webkit-appearance: none; 
         }
+        .login-input:focus {
+            outline: none;
+            border-color: #f97316;
+            box-shadow: 0 0 8px rgba(249, 115, 22, 0.2);
+        }
         .login-input.editable {
-            background-color: #4a5568;
+            background-color: rgba(255, 255, 255, 0.03);
             color: #ffffff;
         }
         .login-btn {
-            background-color: #3b82f6;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
             color: white;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
+            padding: 0.85rem;
+            border-radius: 12px;
             font-weight: 700;
             width: 100%;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.2);
             -webkit-tap-highlight-color: transparent; 
             -webkit-appearance: none;
         }
         .login-btn:hover {
-            background-color: #2c5282;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(249, 115, 22, 0.35);
         }
         
         .copyright-bar {
             width: 100%;
-            background-color: #1a202c; 
-            color: #a0aec0; 
+            background-color: #030712; 
+            color: #6b7280; 
             font-size: 0.7rem;
             text-align: center;
-            padding: 6px 0;
-            border-top: 1px solid #2d3748;
-        }
-        
-        @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {
-            body {
-                -webkit-text-size-adjust: 100%;
-            }
+            padding: 8px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
     </style>
 </head>
-<body class="bg-gray-800 text-white min-h-screen flex flex-col items-center">
+<body>
 
-    <header class="flex flex-col items-center py-8 px-4 w-full">
-        <img src="https://placehold.co/112x112/3b82f6/ffffff?text=iLinkOrigins" 
-             alt="iLinkOrigins Logo" 
-             class="w-28 h-28 object-contain rounded-full mb-2 border-4 border-white shadow-2xl">
-        <h1 class="text-4xl font-extrabold text-white mb-1 tracking-wider">iLinkOrigins</h1>
-        <p class="text-sm text-gray-400">Your single-click South African link app.</p>
+    <header class="flex flex-col items-center pt-10 pb-6 px-4 w-full">
+        <div class="w-28 h-28 mb-3 flex items-center justify-center filter drop-shadow-[0_0_15px_rgba(6,182,212,0.4)]">
+            <svg viewBox="0 0 200 200" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="90" fill="none" stroke="#06b6d4" stroke-width="2" stroke-dasharray="6,6" opacity="0.6"/>
+                <circle cx="100" cy="100" r="80" fill="none" stroke="#f97316" stroke-width="1.5" opacity="0.4"/>
+                
+                <defs>
+                    <radialGradient id="logoGlow" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.25"/>
+                        <stop offset="100%" stop-color="#030712" stop-opacity="0"/>
+                    </radialGradient>
+                </defs>
+                <circle cx="100" cy="100" r="75" fill="url(#logoGlow)"/>
+                
+                <line x1="60" y1="100" x2="100" y2="60" stroke="#06b6d4" stroke-width="2" opacity="0.7"/>
+                <line x1="100" y1="60" x2="140" y2="100" stroke="#f97316" stroke-width="2" opacity="0.7"/>
+                <line x1="140" y1="100" x2="100" y2="140" stroke="#06b6d4" stroke-width="2" opacity="0.7"/>
+                <line x1="100" y1="140" x2="60" y2="100" stroke="#f97316" stroke-width="2" opacity="0.7"/>
+                <line x1="60" y1="100" x2="140" y2="100" stroke="#ffffff" stroke-width="1" stroke-dasharray="4,4" opacity="0.3"/>
+                
+                <circle cx="60" cy="100" r="5" fill="#06b6d4"/>
+                <circle cx="100" cy="60" r="5" fill="#f97316"/>
+                <circle cx="140" cy="100" r="5" fill="#06b6d4"/>
+                <circle cx="100" cy="140" r="5" fill="#f97316"/>
+                
+                <circle cx="100" cy="100" r="28" fill="#111827" stroke="#ffffff" stroke-width="2"/>
+                <text x="100" y="112" font-family="'Inter', sans-serif" font-size="38" font-weight="900" fill="#06b6d4" text-anchor="middle">i</text>
+            </svg>
+        </div>
+        <h1 class="text-3xl font-black text-white mb-1 tracking-widest bg-clip-text text-transparent bg-gradient-to-r from-white via-cyan-400 to-orange-400">iLINKORIGINS</h1>
+        <p class="text-xs font-medium text-gray-400 uppercase tracking-wider">Your single-click South African link ecosystem</p>
     </header>
 
     <main id="content-area" class="flex-grow w-full max-w-md px-4">
@@ -206,29 +260,32 @@
         <section id="home-section" class="content-section active" data-category="home">
             <h2 class="category-heading">WELCOME HOME</h2>
             
-            <a href="mailto:iLinkOrigins@gmail.com" class="link-button mb-6" id="link-main-000">
-                <i class="fas fa-magic mr-2"></i>
+            <a href="mailto:iLinkOrigins@gmail.com" class="link-button mb-6 !border-orange-500/40" id="link-main-000">
+                <i class="fas fa-paper-plane mr-2 text-orange-400"></i>
                 <span>iLinkOrigins@gmail.com</span>
             </a>
 
-            <div class="mt-8 p-6 bg-gray-700 rounded-xl shadow-inner text-gray-200">
-                <h3 class="font-bold text-lg mb-2 text-white">iLinkOrigins:</h3>
-                <p class="mb-3 text-sm">Shopping made easy, making it fast and easy to navigate to find what you're looking for.</p>
-                <p class="mb-3 text-sm">We've expanded our lists! You now have full access to Pets, Groceries, Clothing, Fast Food, Pharmacy, and Fitness subcategories, all focused on South Africa.</p>
-                <p class="text-sm">New features will be added soon!</p>
+            <div class="mt-4 p-6 glass-card rounded-2xl text-gray-300 border border-cyan-500/20">
+                <h3 class="font-extrabold text-lg mb-2 text-white flex items-center">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 mr-2 animate-pulse"></span>
+                    iLinkOrigins Platform
+                </h3>
+                <p class="mb-3 text-sm leading-relaxed">Shopping made easy, making it fast and simple to navigate exactly to what you're looking for.</p>
+                <p class="mb-3 text-sm leading-relaxed text-gray-400">We've expanded our lists! You have streamlined access to Pets, Groceries, Clothing, Fast Food, Pharmacy, and Fitness subcategories, completely focused on South Africa.</p>
+                <p class="text-xs text-orange-400 font-semibold uppercase tracking-wider">New intelligent layers deploying soon!</p>
             </div>
             
-            <div class="mt-8 p-4 bg-gray-900 rounded-xl text-center border border-gray-700">
-                <h4 class="text-sm font-semibold text-gray-400">CONTACT & LEGAL</h4>
-                <p class="text-white text-md mb-2">Email: <a href="mailto:iLinkOrigins@gmail.com" class="text-blue-400 hover:text-blue-300">iLinkOrigins@gmail.com</a></p>
-                <button class="text-xs font-bold text-gray-500 hover:text-blue-400 transition" onclick="showMainSection('terms-section')">Read our Simple Terms & Conditions</button>
+            <div class="mt-6 p-4 bg-gray-950/40 rounded-2xl text-center border border-gray-800">
+                <h4 class="text-xs font-bold text-gray-500 tracking-widest mb-1">CONTACT & SUPPORT</h4>
+                <p class="text-gray-300 text-sm mb-3">Email: <a href="mailto:iLinkOrigins@gmail.com" class="text-cyan-400 hover:text-orange-400 transition">iLinkOrigins@gmail.com</a></p>
+                <button class="text-xs font-semibold text-gray-400 hover:text-cyan-400 transition underline underline-offset-4" onclick="showMainSection('terms-section')">Read Simple Terms & Conditions</button>
             </div>
         </section>
 
         <section id="betting-lottery-section" class="content-section" data-category="betting-lottery">
             <h2 class="category-heading">BETTING & LOTTERY</h2>
             <div class="subcategory-nav-scroll">
-                <div id="betting-lottery-sub-nav" class="flex justify-start space-x-2">
+                <div id="betting-lottery-sub-nav" class="flex justify-start space-x-2 px-1">
                     <button class="sub-nav-button active" data-target-sub="betting-online">Online Betting</button>
                     <button class="sub-nav-button" data-target-sub="betting-lottery">National Lottery</button>
                 </div>
@@ -258,12 +315,12 @@
             </div>
             <div id="sub-betting-lottery" class="subcategory-links" data-subcategory="betting-lottery">
                 <h3 class="sub-heading">SA National Lottery Links</h3>
-                <a href="https://www.nationallottery.co.za/" target="_blank" class="link-button" id="link-lottery-001"><i class="fas fa-poll mr-2"></i> Latest Lotto Results</a>
+                <a href="https://www.nationallottery.co.za/" target="_blank" class="link-button" id="link-lottery-001"><i class="fas fa-poll mr-2 text-cyan-400"></i> Latest Lotto Results</a>
                 <a href="https://www.nationallottery.co.za/login" target="_blank" class="link-button" id="link-lottery-002">Play Lotto Online</a>
                 <a href="https://www.nationallottery.co.za/results/powerball" target="_blank" class="link-button" id="link-lottery-003">PowerBall Results</a>
                 <a href="https://www.nationallottery.co.za/play-now/powerball" target="_blank" class="link-button" id="link-lottery-004">Play PowerBall</a>
                 <a href="https://www.nationallottery.co.za/results/lottoplus" target="_blank" class="link-button" id="link-lottery-005">LottoPlus Results</a>
-                <a href="https://www.lottery.co.za/store-locator" target="_blank" class="link-button" id="link-lottery-006"><i class="fas fa-map-marker-alt mr-2"></i> Find a Lotto Retailer</a>
+                <a href="https://www.lottery.co.za/store-locator" target="_blank" class="link-button" id="link-lottery-006"><i class="fas fa-map-marker-alt mr-2 text-orange-400"></i> Find a Lotto Retailer</a>
                 <a href="https://www.ithuba.co.za/en/contact-us" target="_blank" class="link-button" id="link-lottery-007">Contact Ithuba</a>
                 <a href="https://www.nationallottery.co.za/results/daily-lotto" target="_blank" class="link-button" id="link-lottery-008">Daily Lotto Results</a>
                 <a href="https://www.nationallottery.co.za/play-now/daily-lotto" target="_blank" class="link-button" id="link-lottery-009">Play Daily Lotto</a>
@@ -284,7 +341,7 @@
         <section id="food-shopping-section" class="content-section" data-category="food-shopping">
             <h2 class="category-heading">FOOD & SHOPPING</h2>
             <div class="subcategory-nav-scroll">
-                <div id="food-shopping-sub-nav" class="flex justify-start space-x-2">
+                <div id="food-shopping-sub-nav" class="flex justify-start space-x-2 px-1">
                     <button class="sub-nav-button active" data-target-sub="food-groceries">Groceries</button>
                     <button class="sub-nav-button" data-target-sub="food-clothing">Clothing</button>
                     <button class="sub-nav-button" data-target-sub="food-fast-food">Fast Food</button>
@@ -388,7 +445,7 @@
         <section id="health-beauty-section" class="content-section" data-category="health-beauty">
             <h2 class="category-heading">HEALTH & BEAUTY</h2>
             <div class="subcategory-nav-scroll">
-                <div id="health-beauty-sub-nav" class="flex justify-start space-x-2">
+                <div id="health-beauty-sub-nav" class="flex justify-start space-x-2 px-1">
                     <button class="sub-nav-button active" data-target-sub="hb-pharmacy">Pharmacies</button>
                     <button class="sub-nav-button" data-target-sub="hb-fitness">Fitness</button>
                     <button class="sub-nav-button" data-target-sub="hb-medical">Medical Aid</button>
@@ -468,7 +525,7 @@
         <section id="banking-section" class="content-section" data-category="banking">
             <h2 class="category-heading">BANKING & FINANCE</h2>
             <div class="subcategory-nav-scroll">
-                <div id="banking-sub-nav" class="flex justify-start space-x-2">
+                <div id="banking-sub-nav" class="flex justify-start space-x-2 px-1">
                     <button class="sub-nav-button active" data-target-sub="bank-sa">Major Banks</button>
                     <button class="sub-nav-button" data-target-sub="bank-payments">Payments</button>
                     <button class="sub-nav-button" data-target-sub="bank-credit">Credit Checks</button>
@@ -548,7 +605,7 @@
         <section id="government-section" class="content-section" data-category="government">
             <h2 class="category-heading">GOVERNMENT & SERVICES</h2>
             <div class="subcategory-nav-scroll">
-                <div id="government-sub-nav" class="flex justify-start space-x-2">
+                <div id="government-sub-nav" class="flex justify-start space-x-2 px-1">
                     <button class="sub-nav-button active" data-target-sub="gov-official">Official Sites</button>
                     <button class="sub-nav-button" data-target-sub="gov-utilities">Utilities & Transport</button>
                     <button class="sub-nav-button" data-target-sub="gov-jobs">Jobs & Education</button>
@@ -628,7 +685,7 @@
         <section id="pets-section" class="content-section" data-category="pets">
             <h2 class="category-heading">PETS & HEALTH</h2>
             <div class="subcategory-nav-scroll">
-                <div id="pets-sub-nav" class="flex justify-start space-x-2">
+                <div id="pets-sub-nav" class="flex justify-start space-x-2 px-1">
                     <button class="sub-nav-button active" data-target-sub="pets-products">Food & Products</button>
                     <button class="sub-nav-button" data-target-sub="pets-health">Health & Insurance</button>
                 </div>
@@ -677,7 +734,7 @@
                 <a href="https://www.eukanuba.com/za" target="_blank" class="link-button" id="link-pets-037">Eukanuba SA</a>
                 <a href="https://capespca.co.za/" target="_blank" class="link-button" id="link-pets-038">SPCA Cape of Good Hope</a>
                 <a href="https://tears.org.za/" target="_blank" class="link-button" id="link-pets-039">TEARS Animal Rescue</a>
-                <a href="https://woodrockanimalrescue.co.za/" target="_blank" class="link-button" id="link-pets-040">Woodrock Animal Rescue</a>
+                <a href="https://woodrockanimalrescue.co.za/" target="_blank" class="link-button" id="link-woodrock">Woodrock Animal Rescue</a>
             </div>
         </section>
 
@@ -685,22 +742,22 @@
             <h2 class="category-heading">TERMS & CONDITIONS</h2>
             <div class="container-box">
                 <h3 class="section-title text-xl font-bold mb-4 pb-2">Simple Terms & Conditions</h3>
-                <p class="mb-3 text-sm">
+                <p class="mb-3 text-sm leading-relaxed">
                     <strong>1. Disclaimer of Affiliation:</strong> iLinkOrigins is an independent link directory service and is operated by its sole proprietor. We are not affiliated with, endorsed by, or directly supported by any of the external websites linked on this page.
                 </p>
-                <p class="mb-3 text-sm">
+                <p class="mb-3 text-sm leading-relaxed">
                     <strong>2. External Links:</strong> All links provided are for the user's convenience. We do not control the content, policies, or practices of third-party sites. Clicking an external link is at your own risk. We strongly recommend reviewing the Terms and Privacy Policies of any linked third-party site before providing personal information.
                 </p>
-                <p class="mb-3 text-sm">
+                <p class="mb-3 text-sm leading-relaxed">
                     <strong>3. Accuracy and Availability:</strong> While we strive for accuracy, iLinkOrigins does not guarantee that the information (including but not limited to the categorization or availability of the linked services) on this page is always complete, accurate, or up-to-date. Links may change or cease to function without our knowledge.
                 </p>
-                <p class="mb-3 text-sm">
+                <p class="mb-3 text-sm leading-relaxed">
                     <strong>4. No Warranty:</strong> The service is provided "as is" without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and non-infringement.
                 </p>
-                <p class="mb-3 text-sm">
+                <p class="mb-3 text-sm leading-relaxed">
                     <strong>5. Limitation of Liability:</strong> In no event shall iLinkOrigins be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on iLinkOrigins, even if iLinkOrigins or an iLinkOrigins authorized representative has been notified orally or in writing of the possibility of such damage.
                 </p>
-                <p class="mb-3 text-sm">
+                <p class="mb-3 text-sm leading-relaxed">
                     <strong>6. Changes to Terms:</strong> We reserve the right to revise these terms at any time without prior notice. By using this website, you are agreeing to be bound by the then-current version of these Terms and Conditions.
                 </p>
                 <p class="text-xs text-center text-gray-500 mt-4">
@@ -708,7 +765,7 @@
                 </p>
             </div>
             <div class="mt-8 text-center">
-                <button class="sub-nav-button" onclick="showMainSection('home-section')">
+                <button class="sub-nav-button active" onclick="showMainSection('home-section')">
                     <i class="fas fa-arrow-left mr-2"></i> Back to Home
                 </button>
             </div>
@@ -716,37 +773,36 @@
 
         <section id="login-section" class="content-section" data-category="login">
             <h2 class="category-heading">ADMIN PANEL LOGIN</h2>
-            <div class="p-6 bg-gray-700 rounded-xl shadow-xl">
+            <div class="p-6 glass-card rounded-2xl shadow-xl border border-cyan-500/20">
                 <div id="admin-area">
                     <h3 class="text-xl font-bold text-white mb-4 text-center">iLink Management</h3>
-                    <p id="login-message" class="text-white text-center mb-4">Enter Credentials</p>
+                    <p id="login-message" class="text-white text-center mb-4 text-sm font-semibold">Enter Credentials</p>
                     
                     <input type="text" id="username" placeholder="Username" class="login-input editable">
-                    
                     <input type="password" id="password" placeholder="Password" class="login-input editable">
                     
-                    <button class="login-btn" onclick="check_hybrid_credentials()">Login</button>
+                    <button class="login-btn" onclick="check_hybrid_credentials()">Login System</button>
                 </div>
                 <div id="management-area" class="hidden">
-                    <h3 class="text-xl font-bold text-white mb-4 border-b pb-2 border-gray-600">Link Management</h3>
-                    <select id="link-selector" onchange="loadLinkForEditing(this.value)" class="login-input bg-gray-600 mb-4">
+                    <h3 class="text-xl font-bold text-white mb-4 border-b pb-2 border-gray-700">Link Management</h3>
+                    <select id="link-selector" onchange="loadLinkForEditing(this.value)" class="login-input bg-gray-900 mb-4">
                         <option value="">-- Select Button to Edit --</option>
                     </select>
-                    <label class="text-sm text-gray-400 block mb-1">Button Text</label>
+                    <label class="text-xs text-gray-400 font-bold uppercase tracking-wider block mb-1">Button Text</label>
                     <input type="text" id="edit-text" placeholder="New Button Text" class="login-input editable" disabled>
-                    <label class="text-sm text-gray-400 block mb-1">Button Link (HREF)</label>
+                    <label class="text-xs text-gray-400 font-bold uppercase tracking-wider block mb-1">Button Link (HREF)</label>
                     <input type="text" id="edit-link" placeholder="New URL" class="login-input editable" disabled>
-                    <button class="login-btn bg-green-500 hover:bg-green-600 mb-4" onclick="saveLinkChanges()">Save Changes</button>
-                    <button class="login-btn bg-red-500 hover:bg-red-600" onclick="logout()">Logout</button>
+                    <button class="login-btn bg-gradient-to-r from-cyan-500 to-cyan-600 mb-4 shadow-cyan-500/10" onclick="saveLinkChanges()">Save Changes</button>
+                    <button class="login-btn bg-gradient-to-r from-gray-700 to-gray-800 text-gray-300" onclick="logout()">Logout</button>
                 </div>
             </div>
         </section>
 
     </main>
 
-    <footer class="fixed bottom-0 left-0 w-full bg-gray-900 border-t border-gray-700 shadow-2xl z-10">
+    <footer class="fixed bottom-0 left-0 w-full bg-gray-950/95 border-t border-gray-900 shadow-2xl z-10 backdrop-filter backdrop-blur-xl">
         <nav class="overflow-x-scroll subcategory-nav-scroll px-2 py-2">
-            <div class="flex justify-between items-center space-x-2">
+            <div class="flex justify-between items-center space-x-1">
                 
                 <div class="tab-button" data-target="home-section" data-active="true">
                     <i class="fas fa-home"></i>
@@ -788,7 +844,7 @@
                     <span>T&C</span>
                 </div>
                 
-                <div class="tab-button" data-target="login-section">
+                <div class="tab-button" data-target="login-section" data-secret="HassieHond">
                     <i class="fas fa-user-shield"></i>
                     <span>Admin</span>
                 </div>
@@ -796,7 +852,7 @@
         </nav>
         
         <div class="copyright-bar" id="app-footer-credit">
-            &copy; Clive - HassieHond 2026 - All Rights Reserved | <a href="javascript:void(0)" onclick="showMainSection('terms-section')" class="text-gray-400 hover:text-blue-300">Terms & Conditions</a>
+            © 2026. All rights reserved. | Clive - HassieHond 2026 - All Rights Reserved | <a href="javascript:void(0)" onclick="showMainSection('terms-section')" class="text-cyan-500 hover:text-orange-400">Terms</a>
         </div>
     </footer>
 
@@ -804,10 +860,9 @@
     <canvas id="magic-canvas-2" style="display:none;"></canvas>
 
     <script>
-        // Core logic initialized
         let AppLinksMap = {}; 
         
-        // Hidden security constants
+        // Internal security variables
         const sysAuth1 = "HassieHond"; 
         const sysAuth2 = "HassieHond";
 
@@ -826,12 +881,12 @@
             
             if (!(hybrid_user_check && hybrid_pass_check)) {
                 msgBox.textContent = "Access Denied: Invalid Credentials";
-                msgBox.style.color = '#f56565'; 
+                msgBox.style.color = '#ef4444'; 
                 return;
             }
             
             msgBox.textContent = "Login Successful!";
-            msgBox.style.color = '#48bb78'; 
+            msgBox.style.color = '#10b981'; 
             adminArea.classList.add('hidden');
             manageArea.classList.remove('hidden');
             
@@ -924,8 +979,8 @@
             const msgBox = document.getElementById('login-message');
 
             if (!linkId || !newText || !newLink) {
-                msgBox.textContent = "Save Failed: Select a link and fill both fields.";
-                msgBox.style.color = '#f56565';
+                msgBox.textContent = "Save Failed: Fill required text areas.";
+                msgBox.style.color = '#ef4444';
                 return;
             }
 
@@ -934,7 +989,7 @@
                 linkElement.querySelector('span').textContent = newText;
             } else {
                 if(linkId === 'link-main-000') {
-                    linkElement.innerHTML = `<i class="fas fa-magic mr-2"></i><span>${newText}</span>`;
+                    linkElement.innerHTML = `<i class="fas fa-paper-plane mr-2 text-orange-400"></i><span>${newText}</span>`;
                 } else {
                     linkElement.textContent = newText;
                 }
@@ -953,7 +1008,7 @@
             }
 
             msgBox.textContent = `Success! Link [${linkId}] Updated.`;
-            msgBox.style.color = '#48bb78'; 
+            msgBox.style.color = '#10b981'; 
         }
 
         const tabButtons = document.querySelectorAll('.tab-button');
@@ -1040,7 +1095,7 @@
                 showMainSection(tabButtons[0].dataset.target);
             }
 
-            // Copyright validation check
+            // Copyright validation safety layer
             const crString = document.getElementById('app-footer-credit').innerHTML;
             if (!crString.includes(sysAuth1) || !crString.includes(sysAuth2)) {
                 document.body.innerHTML = "";
@@ -1049,4 +1104,3 @@
     </script>
 </body>
 </html>
-
